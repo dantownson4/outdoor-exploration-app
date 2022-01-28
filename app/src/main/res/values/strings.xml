@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DissertationAppJava</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiZGFuaWVsdG93bnNvbjQiLCJhIjoiY2t5cTBkcWFrMDhvbjJ1dGd5OXBkNGtzcyJ9.gyreeDfI-Is7PM3T9uvpug</string>
+</resources>

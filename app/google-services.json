@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "276289336849",
+    "project_id": "dissertationappas",
+    "storage_bucket": "dissertationappas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276289336849:android:5c02c12d8fe1d7f4f7a3b0",
+        "android_client_info": {
+          "package_name": "com.example.dissertationappjava"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276289336849-hmt20kabvvsb6sp0sukbm0mcg8h4c3fn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfW5J43GAIhRSi88SUdVkIHWZu-0CVbac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276289336849-hmt20kabvvsb6sp0sukbm0mcg8h4c3fn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

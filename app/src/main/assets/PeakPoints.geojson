@@ -1,0 +1,146 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-ide",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2022-01-25T00:12:13Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8870212",
+        "description": "Possibly from an old Gaelic word meaning venomous",
+        "ele": "1345",
+        "importance": "national",
+        "marilyn": "yes",
+        "munro": "yes",
+        "munro_number": "M001",
+        "name": "Ben Nevis",
+        "name:gd": "Beinn Nibheis",
+        "natural": "peak",
+        "prominence": "1345",
+        "source:ele": "http://www.bbc.co.uk/news/science-environment-35837773",
+        "wheelchair": "no",
+        "wikidata": "Q104674",
+        "wikipedia": "en:Ben Nevis"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5.0035356,
+          56.7968515
+        ]
+      },
+      "id": "node/8870212"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8870272",
+        "description": "Great red peak",
+        "ele": "1220",
+        "man_made": "cairn",
+        "marilyn": "yes",
+        "munro": "yes",
+        "munro_number": "M009",
+        "name": "Càrn Mòr Dearg",
+        "natural": "peak",
+        "prominence": "165",
+        "source": "npe",
+        "wikidata": "Q3009632",
+        "wikipedia": "en:Càrn Mòr Dearg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.9866573,
+          56.8052539
+        ]
+      },
+      "id": "node/8870272"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8870336",
+        "ele": "1174",
+        "munro": "yes",
+        "munro_number": "M016",
+        "name": "Ben More",
+        "name:gd": "A' Bheinn Mhòr",
+        "name:translation": "Big Mountain",
+        "natural": "peak",
+        "prominence": "989",
+        "wikidata": "Q3395632",
+        "wikipedia": "en:Ben More (Crianlarich)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.5400634,
+          56.3860093
+        ]
+      },
+      "id": "node/8870336"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/21743375",
+        "name": "Doon Hill",
+        "natural": "peak"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.3765271,
+          56.1711313
+        ]
+      },
+      "id": "node/21743375"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/25453202",
+        "description": "Big herdsman of Etive, red peak",
+        "ele": "1021",
+        "marilyn": "yes",
+        "munro": "yes",
+        "munro_number": "M110",
+        "name": "Stob Dearg",
+        "name:ga": "Buachaille Etive Mòr",
+        "natural": "peak",
+        "prominence": "532",
+        "source": "NPE",
+        "wikidata": "Q20585347"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.8987627,
+          56.6468537
+        ]
+      },
+      "id": "node/25453202"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/25453224",
+        "ele": "1180",
+        "name": "Càrn Dearg Meadhonach",
+        "natural": "peak",
+        "source": "Popular Edition (Scotland)",
+        "wikidata": "Q3009622"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.9893613,
+          56.8097631
+        ]
+      },
+      "id": "node/25453224"
+    }
+  ]
+}
