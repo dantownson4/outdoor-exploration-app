@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "276289336849",
-    "project_id": "dissertationappas",
-    "storage_bucket": "dissertationappas.appspot.com"
+    "project_number": "836623737215",
+    "project_id": "dissertation-androidstudio",
+    "storage_bucket": "dissertation-androidstudio.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:276289336849:android:5c02c12d8fe1d7f4f7a3b0",
+        "mobilesdk_app_id": "1:836623737215:android:3652bf9fd2a03cdb77ba4a",
         "android_client_info": {
           "package_name": "com.example.dissertationappjava"
         }
       },
       "oauth_client": [
         {
-          "client_id": "276289336849-hmt20kabvvsb6sp0sukbm0mcg8h4c3fn.apps.googleusercontent.com",
+          "client_id": "836623737215-tmerqu85553e3m097dmc6uhpkbrq18nn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dissertationappjava",
+            "certificate_hash": "3d4ed1b13d711d0d6f02845550df4dea7b3edb13"
+          }
+        },
+        {
+          "client_id": "836623737215-6i1la0oc44u4eg948kgkpcnumuv4mse8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfW5J43GAIhRSi88SUdVkIHWZu-0CVbac"
+          "current_key": "AIzaSyCTepL_9olcPu_jLt4RCVm86WJ2mEKzWPI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "276289336849-hmt20kabvvsb6sp0sukbm0mcg8h4c3fn.apps.googleusercontent.com",
+              "client_id": "836623737215-6i1la0oc44u4eg948kgkpcnumuv4mse8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
