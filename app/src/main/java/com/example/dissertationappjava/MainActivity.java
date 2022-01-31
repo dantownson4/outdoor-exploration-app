@@ -7,9 +7,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
@@ -20,7 +22,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.dissertationappjava.databinding.ActivityMainBinding;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.geojson.Feature;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
 import com.mapbox.mapboxsdk.location.modes.RenderMode;
@@ -39,7 +43,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback, MapboxMap.OnMapClickListener {
 
     private ActivityMainBinding binding;
 
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
 
     }
 
@@ -153,8 +158,13 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         this.map = mapboxMap;
 
-        mapboxMap.setStyle(Style.DARK,
+        mapboxMap.setStyle(Style.MAPBOX_STREETS,
                 style -> enableLocationComponent(style));
+
+        mapboxMap.addOnMapClickListener(point -> {
+            onMapClick(point);
+            return false;
+        });
 
     }
 
@@ -178,12 +188,39 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         loadedMapStyle.addImage("red_marker", icon);
 
         //Creates a new SymbolLayer to display the GeoJSON information markers on, assigning the above image file to all points
-        SymbolLayer symbolLayer = new SymbolLayer("layer-id", "geojsonsource");
+        SymbolLayer symbolLayer = new SymbolLayer("marker-layer", "geojsonsource");
         symbolLayer.setProperties(iconImage("red_marker"));
 
         //Adds this SymbolLayer to the style to display on top of the map
         loadedMapStyle.addLayer(symbolLayer);
 
 
+    }
+
+    @Override
+    public boolean onMapClick(@NonNull LatLng point) {
+
+        //Creates a list of features at the clicked location on the map using Mapbox Data (from OSM)
+        List<Feature> mapFeatures = map.queryRenderedFeatures((map.getProjection().toScreenLocation(point)), "marker-layer");
+
+        final TextView textViewToChange = (TextView) findViewById(R.id.testText);
+        textViewToChange.setText("MAP CLICKED");
+
+        if (mapFeatures.isEmpty()){
+            textViewToChange.setText("No features - feature list empty");
+        }
+
+        for (Feature f : mapFeatures){
+
+            if (f.getStringProperty("name") != null){
+                textViewToChange.setText(f.getStringProperty("name"));
+                break;
+            }else{
+                textViewToChange.setText("No features - no type tag");
+            }
+
+        }
+
+        return true;
     }
 }
