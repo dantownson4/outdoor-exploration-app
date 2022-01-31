@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         Mapbox.getInstance(this, "pk.eyJ1IjoiZGFuaWVsdG93bnNvbjQiLCJhIjoiY2t5cTBkcWFrMDhvbjJ1dGd5OXBkNGtzcyJ9.gyreeDfI-Is7PM3T9uvpug");
