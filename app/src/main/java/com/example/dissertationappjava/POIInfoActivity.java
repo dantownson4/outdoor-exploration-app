@@ -29,6 +29,7 @@ public class POIInfoActivity extends AppCompatActivity {
         final TextView textViewID = (TextView) findViewById(R.id.POIInfo);
         final TextView textViewName = (TextView) findViewById(R.id.POIname);
         final TextView textViewHistoric = (TextView) findViewById(R.id.POIhistorictype);
+        final TextView textViewEleData = (TextView) findViewById(R.id.elevationData);
 
         if(extras == null){
             textViewID.setText("NO DATA FOUND");
@@ -47,8 +48,12 @@ public class POIInfoActivity extends AppCompatActivity {
         textViewName.setText(information.get("name"));
         textViewID.setText(information.get("@id"));
 
-        if(information.containsKey("historic")){
-            textViewHistoric.setText(information.get("historic"));
+        if(information.containsKey("type")){
+            textViewHistoric.setText(information.get("type"));
+        }
+
+        if(information.containsKey("ele")){
+            textViewEleData.setText(information.get("ele") + "m");
         }
 
 
@@ -85,8 +90,20 @@ public class POIInfoActivity extends AppCompatActivity {
             data.put("name", propertiesJson.getString("name"));
         }
 
-        if (propertiesJson.has("historic")){
-            data.put("historic", propertiesJson.getString("historic"));
+        if(propertiesJson.has("man_made")){
+            data.put("type", propertiesJson.getString("man_made"));
+        }else if (propertiesJson.has("leisure")){
+            data.put("type", propertiesJson.getString("leisure"));
+        }else if (propertiesJson.has("historic")){
+            data.put("type", propertiesJson.getString("historic"));
+        }else if (propertiesJson.has("natural")){
+            data.put("type", propertiesJson.getString("natural"));
+        }else if (propertiesJson.has("tourism")){
+            data.put("type", propertiesJson.getString("tourism"));
+        }
+
+        if (propertiesJson.has("ele")){
+            data.put("ele", propertiesJson.getString("ele"));
         }
 
 

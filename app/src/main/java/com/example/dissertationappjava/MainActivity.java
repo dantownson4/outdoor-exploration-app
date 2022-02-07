@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         if (mapFeatures.isEmpty()){
             textViewToChange.setText("No features - feature list empty");
+            currentPOI = null;
         }
 
         for (Feature f : mapFeatures){
@@ -232,13 +233,11 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         final TextView textViewToChange = (TextView) findViewById(R.id.testText);
 
-        if (currentPOI.getStringProperty("@id") != null){
-
-            JsonObject test = currentPOI.properties();
-            textViewToChange.setText(currentPOI.getStringProperty("@id"));
+        if (currentPOI != null){
 
             //TODO - check if @id is in database, add if not
 
+            textViewToChange.setText(" ");
             Bundle bundle = new Bundle();
 
             bundle.putString("test", "testingstring");
@@ -250,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
 
         }else{
-            textViewToChange.setText("NO ID FOR FEATURE");
+            textViewToChange.setText("No feature selected");
         }
 
 
