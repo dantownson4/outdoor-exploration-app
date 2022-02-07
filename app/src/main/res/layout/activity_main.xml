@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_700"
     android:paddingTop="?attr/actionBarSize">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -37,15 +38,19 @@
         android:layout_height="match_parent"
         app:mapbox_cameraTargetLat="40.7128"
         app:mapbox_cameraTargetLng="-74.0060"
-        app:mapbox_cameraZoom="9.0"
-        >
+        app:mapbox_cameraZoom="9.0">
 
         <TextView
             android:id="@+id/testText"
-            android:layout_width="245dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/teal_200"
             android:text="TextView"
-            android:textSize="34sp" />
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:onClick="onInfoClick"
+            android:clickable="true"/>
+
     </com.mapbox.mapboxsdk.maps.MapView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

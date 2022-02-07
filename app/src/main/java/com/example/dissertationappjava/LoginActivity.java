@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (account != null){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("account", account);
             finish();
             startActivity(intent);
         }

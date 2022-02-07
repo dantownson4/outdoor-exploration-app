@@ -3,10 +3,12 @@ package com.example.dissertationappjava;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.dissertationappjava.databinding.ActivityMainBinding;
+import com.google.gson.JsonObject;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.geojson.Feature;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
     private MapboxMap map;
     private LocationComponent location;
     private SymbolManager symbolManager;
+    private Feature currentPOI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
             e.printStackTrace();
         }
 
-        //Adds the laoded GeoJSON as a source to the current map style
+        //Adds the loaded GeoJSON as a source to the current map style
         loadedMapStyle.addSource(gjsonsource);
 
         //Creates a Bitmap object using the specified image file in the drawables folder
@@ -204,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         List<Feature> mapFeatures = map.queryRenderedFeatures((map.getProjection().toScreenLocation(point)), "marker-layer");
 
         final TextView textViewToChange = (TextView) findViewById(R.id.testText);
-        textViewToChange.setText("MAP CLICKED");
 
         if (mapFeatures.isEmpty()){
             textViewToChange.setText("No features - feature list empty");
@@ -214,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
             if (f.getStringProperty("name") != null){
                 textViewToChange.setText(f.getStringProperty("name"));
+                currentPOI = f;
                 break;
             }else{
                 textViewToChange.setText("No features - no type tag");
@@ -222,5 +226,33 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         }
 
         return true;
+    }
+
+    public void onInfoClick(View v){
+
+        final TextView textViewToChange = (TextView) findViewById(R.id.testText);
+
+        if (currentPOI.getStringProperty("@id") != null){
+
+            JsonObject test = currentPOI.properties();
+            textViewToChange.setText(currentPOI.getStringProperty("@id"));
+
+            //TODO - check if @id is in database, add if not
+
+            Bundle bundle = new Bundle();
+
+            bundle.putString("test", "testingstring");
+            bundle.putString("ID", currentPOI.toJson());
+
+            Intent i = new Intent(MainActivity.this, POIInfoActivity.class);
+            i.putExtras(bundle);
+            startActivity(i);
+
+
+        }else{
+            textViewToChange.setText("NO ID FOR FEATURE");
+        }
+
+
     }
 }
