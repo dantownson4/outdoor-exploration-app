@@ -26,28 +26,37 @@ public class POIInfoActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
+        //Declares objects allowing text in TextView objects to be changed
         final TextView textViewID = (TextView) findViewById(R.id.POIInfo);
         final TextView textViewName = (TextView) findViewById(R.id.POIname);
         final TextView textViewHistoric = (TextView) findViewById(R.id.POIhistorictype);
         final TextView textViewEleData = (TextView) findViewById(R.id.elevationData);
 
+        //If no POI data was passed in, displays "no data found" message
+        //Else sets the input POI JSON data to the string POIdata
         if(extras == null){
             textViewID.setText("NO DATA FOUND");
         }else{
             POIdata = extras.getString("ID");
         }
 
+        //Creates map object to store the tags and their values
         Map<String, String> information = new HashMap<String, String>();
+
         try {
+            //Calls parseJson function to receive fully parsed POI data
             information = parseJson(POIdata);
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("JSON PARSE FAILED in onCreate");
         }
 
+        //Sets the name and ID TextViews to their corresponding values
+        //(Every POI that is valid contains both of these values so no check is needed)
         textViewName.setText(information.get("name"));
         textViewID.setText(information.get("@id"));
 
+        //Checks for other tags, setting their TextViews to the corresponding values
         if(information.containsKey("type")){
             textViewHistoric.setText(information.get("type"));
         }
@@ -65,6 +74,7 @@ public class POIInfoActivity extends AppCompatActivity {
         JSONObject propertiesJson = null;
         Map<String, String> data = new HashMap<String, String>();
 
+        //Attempts to set the input string to a JSONObject, throws exception if not valid Json
         try {
             wholeJson = new JSONObject(s);
         } catch (JSONException e) {
@@ -74,7 +84,7 @@ public class POIInfoActivity extends AppCompatActivity {
         }
 
 
-
+        //Gets the properties section of the input POI data Json, containing all required data tags
         if (wholeJson.has("properties")){
             propertiesJson = wholeJson.getJSONObject("properties");
         }else{
@@ -82,6 +92,7 @@ public class POIInfoActivity extends AppCompatActivity {
             return data;
         }
 
+        //Checks for tags, retrieving their values if exist
         if (propertiesJson.has("@id")){
             data.put("@id", propertiesJson.getString("@id"));
         }
@@ -90,6 +101,7 @@ public class POIInfoActivity extends AppCompatActivity {
             data.put("name", propertiesJson.getString("name"));
         }
 
+        //POI type display uses value from several possible OSM tags, ordered in if else statement by priority
         if(propertiesJson.has("man_made")){
             data.put("type", propertiesJson.getString("man_made"));
         }else if (propertiesJson.has("leisure")){
@@ -115,7 +127,6 @@ public class POIInfoActivity extends AppCompatActivity {
 
     public void onClose(View v){
         finish();
-
     }
 
 }

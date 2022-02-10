@@ -84,9 +84,10 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
     }
 
-    //Suppresses missing permission warning as permissions are handled through Mapbox
-    //@SuppressWarnings({"MissingPermission"})
+
     private void enableLocationComponent(Style loadedStyle) {
+
+        //Checks if location permissions have been granted by the user
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
 
             location = map.getLocationComponent();
@@ -104,10 +105,14 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
             location.setRenderMode(RenderMode.COMPASS);
 
         } else {
+
+            //Creates Mapbox PermissionsManager to handle permissions request, then requests location permissions from user
             pManager = new PermissionsManager(this);
             pManager.requestLocationPermissions(this);
         }
 
+        //Calls GeoJSONLoad method using specified geojson file
+        //This file can be changed for different POIs, locations etc.
         GeoJSONLoad(loadedStyle, "asset://POIdatapoints.geojson");
 
     }
@@ -162,9 +167,12 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         this.map = mapboxMap;
 
+        //Sets the map style (from included Mapbox default styles)
+        //Then gets callback from enableLocationComponent finalising the map loading, using lambda function
         mapboxMap.setStyle(Style.MAPBOX_STREETS,
                 style -> enableLocationComponent(style));
 
+        //Adds click listener for the map, calling the onMapClick function as a result of a click
         mapboxMap.addOnMapClickListener(point -> {
             onMapClick(point);
             return false;
@@ -209,13 +217,16 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         final TextView textViewToChange = (TextView) findViewById(R.id.testText);
 
+        //If user clicks on location without a POI
         if (mapFeatures.isEmpty()){
             textViewToChange.setText("No features - feature list empty");
             currentPOI = null;
         }
 
+
         for (Feature f : mapFeatures){
 
+            //If the current Feature object contains a "name" tag, displays the value and sets currentPOI to this Feature
             if (f.getStringProperty("name") != null){
                 textViewToChange.setText(f.getStringProperty("name"));
                 currentPOI = f;
@@ -240,9 +251,10 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
             textViewToChange.setText(" ");
             Bundle bundle = new Bundle();
 
-            bundle.putString("test", "testingstring");
+            //Adds the currentPOI Feature object to the bundle to be passed to the info activity, in JSON format
             bundle.putString("ID", currentPOI.toJson());
 
+            //Creates and starts an Intent containing the above POI JSON, without closing the main map
             Intent i = new Intent(MainActivity.this, POIInfoActivity.class);
             i.putExtras(bundle);
             startActivity(i);
