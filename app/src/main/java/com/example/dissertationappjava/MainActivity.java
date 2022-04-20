@@ -294,8 +294,6 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         final TextView textViewToChange = (TextView)findViewById(R.id.poiname);
 
-        textViewToChange.setText("TESTING");
-
         //If user clicks on location without a POI
         if (mapFeatures.isEmpty()){
             textViewToChange.setText("No features - feature list empty");

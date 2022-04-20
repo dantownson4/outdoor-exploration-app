@@ -278,7 +278,6 @@ public class POIInfoActivity extends AppCompatActivity {
         final TextView textViewCheckin = (TextView) findViewById(R.id.checkInStatus);
         final TextView textViewVisited = (TextView) findViewById(R.id.playerVisitedValue);
 
-        //TODO - CHANGE VALUE DISTANCE TO APPROPRIATE NUMBER
         //If the user is within the specified range (metres) and has not visited the POI previously
         if (userDistance < 500 && !alreadyVisited){
 
