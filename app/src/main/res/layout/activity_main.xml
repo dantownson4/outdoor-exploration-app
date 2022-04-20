@@ -5,52 +5,101 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
-    android:paddingTop="?attr/actionBarSize">
+    android:background="#1D5C63">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
+        android:background="#EDE6DB"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_main"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="408dp"
+        android:layout_height="726dp"
+        android:layout_marginTop="112dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/nav_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504"
         app:navGraph="@navigation/mobile_navigation" />
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:mapbox_cameraTargetLat="40.7128"
         app:mapbox_cameraTargetLng="-74.0060"
         app:mapbox_cameraZoom="9.0">
 
-        <TextView
-            android:id="@+id/testText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_200"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="34sp"
-            android:onClick="onInfoClick"
-            android:clickable="true"/>
-
     </com.mapbox.mapboxsdk.maps.MapView>
+
+    <TextView
+        android:id="@+id/userscore"
+        android:layout_width="69dp"
+        android:layout_height="31dp"
+        android:layout_marginLeft="4dp"
+        android:text="Score: "
+        android:textColor="#03A9F4"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/poiname" />
+
+    <TextView
+        android:id="@+id/userscoreValue"
+        android:layout_width="69dp"
+        android:layout_height="31dp"
+        android:text="0"
+        android:textColor="#03A9F4"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toRightOf="@+id/userscore"
+        app:layout_constraintTop_toBottomOf="@+id/poiname" />
+
+    <TextView
+        android:id="@+id/poiname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#417D7A"
+        android:clickable="true"
+        android:minHeight="48dp"
+        android:onClick="onInfoClick"
+        android:text="Select a POI"
+        android:textAlignment="center"
+        android:textColor="#EDE6DB"
+        android:textSize="34sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/POINameButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/POINameButton"
+        android:layout_width="22dp"
+        android:layout_height="48dp"
+        android:background="#417D7A"
+        android:clickable="true"
+        android:minHeight="48dp"
+        android:onClick="onInfoClick"
+        android:text=">"
+        android:textAlignment="center"
+        android:textColor="#EDE6DB"
+
+        android:textSize="34sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

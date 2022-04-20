@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //Ensures click is on the sign-in button
                 switch (view.getId()){
                     case R.id.sign_in_button:
                         userSignIn(gClient);
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
+        //Attempts to retrieve account that was previously used to sign in to this app
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         attemptStart(account);
@@ -111,18 +113,20 @@ public class LoginActivity extends AppCompatActivity {
 
                 attemptStart(account);
             }catch (ApiException e){
-                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+                Log.d(TAG, "signInResult:failed code=" + e.getStatusCode());
 
             }
 
         }
     }
 
+    //Attempts to load the main app activity passing in the Google account ID
     private void attemptStart(GoogleSignInAccount account){
 
         if (account != null){
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("account", account);
+            System.out.println(account.getId());
+            intent.putExtra("userID", account.getId());
             finish();
             startActivity(intent);
         }

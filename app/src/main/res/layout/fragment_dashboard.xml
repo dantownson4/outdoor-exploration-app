@@ -6,25 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <TextView
-        android:id="@+id/text_dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
+    <View
+        android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="182dp"
-        tools:layout_editor_absoluteY="155dp" />
+        android:background="#417D7A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/userIDText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1D5C63"
+            android:clickable="true"
+            android:minHeight="48dp"
+            android:onClick="onInfoClick"
+            android:text="ID"
+            android:textAlignment="center"
+            android:textColor="#EDE6DB"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Score:"
+            android:textAlignment="center"
+            android:textColor="#EDE6DB"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/userScoreText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="#EDE6DB"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textColor="#EDE6DB"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Visited POIs:"
+            android:textAlignment="center"
+            android:textColor="#EDE6DB"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/userVisitedText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="#EDE6DB"
+            android:textSize="34sp" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

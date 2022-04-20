@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,13 +17,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.dissertationappjava.databinding.ActivityMainBinding;
-import com.google.gson.JsonObject;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.geojson.Feature;
@@ -35,18 +36,19 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import com.mapbox.maps.plugin.locationcomponent.*;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback, MapboxMap.OnMapClickListener {
+public class MainActivity extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback, MapboxMap.OnMapClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
+
+    public String userID;
+    public String userScore;
+    public String userVisited;
 
     private ActivityMainBinding binding;
 
@@ -54,8 +56,13 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
     private PermissionsManager pManager;
     private MapboxMap map;
     private LocationComponent location;
-    private SymbolManager symbolManager;
     private Feature currentPOI;
+    private LatLng currentSelectedPoint;
+
+
+    //Creates fragments for bottom menu navigation
+    FirstFragment homeFrag = new FirstFragment();
+    DashboardFragment profileFrag = new DashboardFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,20 +79,86 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         mapView.getMapAsync(this);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+
+        navView.setOnNavigationItemSelectedListener(this);
+        navView.setSelectedItemId(R.id.navigation_home);
+
+
+        Bundle bundle = getIntent().getExtras();
+
+        DatabaseReference db = FirebaseDatabase.getInstance("https://dissertation-androidstudio-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("users");
+
+        if (bundle.getString("userID") != null){
+
+            //Gets user ID passed in from the login activity
+            userID = bundle.getString("userID");
+
+            //Single event listener for
+            db.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+
+                        //Retrieves current user score from database
+                        db.child(userID).child("score").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                userScore = snapshot.getValue().toString();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        //Retrieves current user visited count from database
+                        db.child(userID).child("visitedCount").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                userVisited = snapshot.getValue().toString();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
+
+                    }else{
+                        db.child(userID).child("score").setValue("0");
+                        db.child(userID).child("visitedCount").setValue("0");
+                        userScore = "0";
+                        userVisited = "0";
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            userID = bundle.getString("userID");
+        }else{
+            System.out.println("USERID NOT FOUND");
+        }
 
 
     }
 
 
     private void enableLocationComponent(Style loadedStyle) {
+
+        //If location permissions have not been granted, requests permissions from user
+        if (!PermissionsManager.areLocationPermissionsGranted(this)){
+            //Creates Mapbox PermissionsManager to handle permissions request, then requests location permissions from user
+            pManager = new PermissionsManager(this);
+            pManager.requestLocationPermissions(this);
+        }
 
         //Checks if location permissions have been granted by the user
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
@@ -104,11 +177,6 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
             location.setCameraMode(CameraMode.TRACKING);
             location.setRenderMode(RenderMode.COMPASS);
 
-        } else {
-
-            //Creates Mapbox PermissionsManager to handle permissions request, then requests location permissions from user
-            pManager = new PermissionsManager(this);
-            pManager.requestLocationPermissions(this);
         }
 
         //Calls GeoJSONLoad method using specified geojson file
@@ -129,12 +197,6 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         super.onStop();
         mapView.onStop();
     }
-
-   /* @Override
-    protected void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }*/
 
     @Override
     protected void onDestroy() {
@@ -169,13 +231,26 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         //Sets the map style (from included Mapbox default styles)
         //Then gets callback from enableLocationComponent finalising the map loading, using lambda function
-        mapboxMap.setStyle(Style.MAPBOX_STREETS,
+        mapboxMap.setStyle(Style.SATELLITE_STREETS,
                 style -> enableLocationComponent(style));
-
         //Adds click listener for the map, calling the onMapClick function as a result of a click
         mapboxMap.addOnMapClickListener(point -> {
             onMapClick(point);
             return false;
+        });
+
+        DatabaseReference db = FirebaseDatabase.getInstance("https://dissertation-androidstudio-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("users").child(userID).child("score");
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TextView textViewToChangeScore = (TextView) findViewById(R.id.userscoreValue);
+                textViewToChangeScore.setText(snapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
 
     }
@@ -196,8 +271,8 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
         //Creates a Bitmap object using the specified image file in the drawables folder
         //Then adds that bitmap to the style assigning a name
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.red_marker);
-        loadedMapStyle.addImage("red_marker", icon);
+        Bitmap markerIcon = BitmapFactory.decodeResource(getResources(), R.drawable.red_marker);
+        loadedMapStyle.addImage("red_marker", markerIcon);
 
         //Creates a new SymbolLayer to display the GeoJSON information markers on, assigning the above image file to all points
         SymbolLayer symbolLayer = new SymbolLayer("marker-layer", "geojsonsource");
@@ -212,10 +287,14 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
 
+        currentSelectedPoint = point;
+
         //Creates a list of features at the clicked location on the map using Mapbox Data (from OSM)
         List<Feature> mapFeatures = map.queryRenderedFeatures((map.getProjection().toScreenLocation(point)), "marker-layer");
 
-        final TextView textViewToChange = (TextView) findViewById(R.id.testText);
+        final TextView textViewToChange = (TextView)findViewById(R.id.poiname);
+
+        textViewToChange.setText("TESTING");
 
         //If user clicks on location without a POI
         if (mapFeatures.isEmpty()){
@@ -242,17 +321,20 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
 
     public void onInfoClick(View v){
 
-        final TextView textViewToChange = (TextView) findViewById(R.id.testText);
+        final TextView textViewToChange = (TextView) findViewById(R.id.poiname);
+
 
         if (currentPOI != null){
-
-            //TODO - check if @id is in database, add if not
 
             textViewToChange.setText(" ");
             Bundle bundle = new Bundle();
 
+            LatLng userLocation = new LatLng(location.getLastKnownLocation().getLatitude(), location.getLastKnownLocation().getLongitude());
+
             //Adds the currentPOI Feature object to the bundle to be passed to the info activity, in JSON format
             bundle.putString("ID", currentPOI.toJson());
+            bundle.putString("userID", userID);
+            bundle.putDouble("userDistance", currentSelectedPoint.distanceTo(userLocation));
 
             //Creates and starts an Intent containing the above POI JSON, without closing the main map
             Intent i = new Intent(MainActivity.this, POIInfoActivity.class);
@@ -265,5 +347,22 @@ public class MainActivity extends AppCompatActivity implements PermissionsListen
         }
 
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        //Loads corresponding fragment when user clicks on a navigation button
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFrag).commit();
+                return true;
+
+            case R.id.navigation_profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFrag).commit();
+                return true;
+
+        }
+        return false;
     }
 }

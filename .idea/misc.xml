@@ -4,10 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/activity_login2.xml" value="0.33" />
-        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/activity_main.xml" value="0.4941268598277212" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/activity_poiinfo.xml" value="0.328125" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/content_poiinfo.xml" value="0.328125" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/fragment_dashboard.xml" value="0.328125" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/fragment_first.xml" value="0.32864583333333336" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/fragment_home.xml" value="0.32708333333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/fragment_notifications.xml" value="0.32864583333333336" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/fragment_second.xml" value="0.32864583333333336" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/layout/poi_popup.xml" value="0.32864583333333336" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/DissertationAppJava/app/src/main/res/menu/bottom_nav_menu.xml" value="0.32864583333333336" />
       </map>
     </option>
   </component>
